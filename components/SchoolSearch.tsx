@@ -3,11 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { Input } from "@/components/ui/input";
 
 type School = { name: string; slug: string; city: string; state: string };
 
-export default function SchoolSearch() {
+export default function SchoolSearch({ heroStyle = false }: { heroStyle?: boolean }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<School[]>([]);
   const [open, setOpen] = useState(false);
@@ -54,24 +53,28 @@ export default function SchoolSearch() {
 
   return (
     <div ref={wrapperRef} className="relative w-full">
-      <Input
-        placeholder="Search your school…"
+      <input
+        type="text"
+        placeholder="Search for your school"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-full text-base h-12 border-primary/40 focus-visible:ring-primary"
+        aria-label="School search"
+        className={
+          heroStyle
+            ? "mt-2 shadow-md focus:outline-none border-2 border-[#5CABDF] bg-white rounded-2xl py-3 px-6 block w-full text-base text-black placeholder-gray-400"
+            : "w-full text-base h-11 rounded-lg border border-gray-300 px-4 focus:outline-none focus:border-[#5CABDF] focus:ring-2 focus:ring-[#5CABDF]/30 bg-white placeholder-gray-400"
+        }
       />
       {open && results.length > 0 && (
-        <ul className="absolute z-50 mt-1 w-full rounded-md border bg-white shadow-lg">
+        <ul className="absolute z-50 mt-1 w-full rounded-xl border bg-white shadow-xl overflow-hidden">
           {results.map((s) => (
             <li
               key={s.slug}
-              className="px-4 py-3 hover:bg-secondary cursor-pointer text-sm"
+              className="px-5 py-3 hover:bg-[#5CABDF]/10 cursor-pointer text-sm border-b last:border-0"
               onMouseDown={() => pick(s)}
             >
-              <span className="font-medium">{s.name}</span>
-              <span className="text-muted-foreground ml-2">
-                {s.city}, {s.state}
-              </span>
+              <span className="font-semibold text-gray-900">{s.name}</span>
+              <span className="text-gray-400 ml-2">{s.city}, {s.state}</span>
             </li>
           ))}
         </ul>

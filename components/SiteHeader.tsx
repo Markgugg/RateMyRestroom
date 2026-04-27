@@ -17,23 +17,40 @@ export default function SiteHeader({ user }: { user: User | null }) {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b bg-white shadow-sm">
       <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
-        <Link href="/" className="text-xl font-bold text-primary tracking-tight">
-          RateMyRestroom
+        <Link href="/" className="flex items-center gap-1.5">
+          <span className="text-xl font-black tracking-tight">
+            <span className="text-gray-900">RateMy</span>
+            <span className="text-primary">Restroom</span>
+          </span>
         </Link>
-        <nav className="flex items-center gap-4">
-          <Link href="/schools" className="text-sm font-medium hover:text-primary transition-colors">
+
+        <nav className="flex items-center gap-1">
+          <Link
+            href="/schools"
+            className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors"
+          >
             Schools
           </Link>
           {user ? (
-            <Button variant="outline" size="sm" onClick={handleSignOut}>
+            <button
+              onClick={handleSignOut}
+              className="ml-2 px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors"
+            >
               Sign out
-            </Button>
+            </button>
           ) : (
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" render={<Link href="/login" />}>Log in</Button>
-              <Button size="sm" render={<Link href="/signup" />}>Sign up</Button>
+            <div className="flex items-center gap-2 ml-2">
+              <Link
+                href="/login"
+                className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-primary rounded-lg hover:bg-blue-50 transition-colors"
+              >
+                Sign In
+              </Link>
+              <Button size="sm" render={<Link href="/signup" />} className="rounded-lg px-4 font-semibold">
+                Write a Review
+              </Button>
             </div>
           )}
         </nav>
